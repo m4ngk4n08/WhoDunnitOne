@@ -1,15 +1,37 @@
 let db;
 
-async function loadDB(){
+async function loadDB(sqlFilePaths = []){
     const SQL = await initSqlJs({
         locateFile: file => `./lib/sql-wasm.wasm`
     });
 
-
     const db = new SQL.Database();
-    db.run("create table users (id INTEGER, name TEXT);")
-    db.run("insert into users (id, name) values (1, 'Alice'), (1, 'Bob');")
-    console.log("Database initialized.")
+    
+    if(sqlFilePaths.length > 0){
+        try{
+            for(const sqlFilePath of sqlFilePaths){
+                // fetch sql file
+                const response = await fetch(sqlFilePath);
+                if(!response.ok){
+                    throw new Error(`failed to load SQL File ${sqlFilePath}: ${response.statusText}`);
+                }
+
+                // read the sql file content
+                const sqlScript = await response.text();
+
+                // execute the sql script
+                db.exec(sqlScript);
+            }
+        }catch(error){
+            //console.error("Error loading SQL file:", error);
+            console.log("Error loading SQL file:", error.message);
+        }
+    } else{
+        db.run("create table users (id INTEGER, name TEXT);")
+        db.run("insert into users (id, name) values (1, 'Alice'), (1, 'Bob');")
+        console.log("Database initialized manually.")
+    } 
+
     return db;
 }
 
@@ -20,21 +42,24 @@ async function runQuery(){
     }
 
     const sqlQuery = document.getElementById("sqlQuery").value.trim();
-
     if(sqlQuery === ""){
-        alert("Please enter a SQL query.");
         return;
     }
 
     try{
-
         const result = db.exec(sqlQuery);
+
+        // validate that the query starts with SELECT
+        if(!sqlQuery.toLowerCase().startsWith("select")){
+            document.getElementById("output").innerHTML = "Only select queries are allowed.";
+            return;
+        }
 
         if(result.length === 0 || result[0].values.length === 0){
             document.getElementById("output").innerHTML = "No results found.";
             return;
         }
-        console.log(result[0].columns, result[0].values);
+        // console.log(result[0].columns, result[0].values);
 
         displayResultAsTable(result[0].columns, result[0].values);
 
@@ -86,13 +111,31 @@ function displayResultAsTable(columns, rows) {
 }
 
 const DatabaseModule = {
-    loadDb : async function() {
-        db = await loadDB();
+    loadDb : async function(sqlFilePaths) {
+        db = await loadDB(sqlFilePaths);
     },
     runQuery : async function() {
         await runQuery();
     },
+    // make db accessible from outside
+    get db() {
+        return db;
+    },
 };
 
-DatabaseModule.loadDb();
+DatabaseModule.loadDb([
+    './sql/whodunnitone_crime_scene.sql',
+    './sql/whodunnitone_evidence.sql',
+    './sql/whodunnitone_guest_list.sql',
+    './sql/whodunnitone_people.sql',
+    './sql/whodunnitone_people_info.sql',
+    './sql/whodunnitone_security_footage.sql',
+    './sql/whodunnitone_statement.sql'
+]).then(()=> {
+    console.log("Database loaded successfully!");
+    document.getElementById("checkKeyBtn").disabled = false; // Enable the button after loading the database
+}).catch((error) => {
+    console.error("Error loading database:", error);
+});
+
 window.DatabaseModule = DatabaseModule;

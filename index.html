@@ -6,8 +6,8 @@
         <title>Who Dunnit One</title> 
 
         <script src="./lib/sql-wasm.js"></script>
-        <script defer src="./js/sql-setup.js"></script> <!-- Ensure it's loaded -->
-
+        <script defer src="./js/sql-setup.js"></script>
+        <script defer src="./js/decryption.js"></script>
     </head>
 <body>
     <h1>Who Dunnit One</h1>
@@ -15,6 +15,13 @@
     
 
     <p>In this game, you will be presented with a series of clues and suspects. Your task is to determine who the culprit is based on the information provided.</p>
+
+    <div>
+        <!-- input field for decryption. -->
+         <input type="text" id="decryptionKey" placeholder="Enter decryption key" />
+         <button id="checkKeyBtn" disabled onClick="checkKey()">Check Key</button>
+         <div id="decryptionResult"></div>
+    </div>
     <div>
         <textarea id="sqlQuery" rows="10" cols="50" placeholder="Enter your SQL query here..."></textarea>
     </div>
@@ -22,5 +29,6 @@
     <button onClick="DatabaseModule.runQuery()">Run SQL Query</button>
     <pre id="output"></pre>
     <!-- <script src="./lib/sql-wasm-debug.js"></script> -->
+     
 </body>
 </html>
