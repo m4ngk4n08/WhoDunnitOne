@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Who Dunnit One</title> 
+
+        <script src="./lib/sql-wasm.js"></script>
+        <script defer src="./js/sql-setup.js"></script> <!-- Ensure it's loaded -->
+
+    </head>
+<body>
+    <h1>Who Dunnit One</h1>
+    <h2>Welcome to the Who Dunnit One Game!</h2>
+    
+
+    <p>In this game, you will be presented with a series of clues and suspects. Your task is to determine who the culprit is based on the information provided.</p>
+    <div>
+        <textarea id="sqlQuery" rows="10" cols="50" placeholder="Enter your SQL query here..."></textarea>
+    </div>
+
+    <button onClick="DatabaseModule.runQuery()">Run SQL Query</button>
+    <pre id="output"></pre>
+    <!-- <script src="./lib/sql-wasm-debug.js"></script> -->
+</body>
+</html>
