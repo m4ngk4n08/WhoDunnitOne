@@ -1,18 +1,10 @@
 CREATE TABLE guest_list (
-    guest_id INT PRIMARY KEY,
-    person_id INT,
+    guest_id INTEGER PRIMARY KEY,
+    person_id INTEGER,
     check_in TIMESTAMP,
-    check_out TIMESTAMP,
-    FOREIGN KEY (person_id) REFERENCES people(person_id)
+    check_out TIMESTAMP
 );
 
-INSERT INTO guest_list VALUES 
-(1, 1, '2025-04-01 19:00:00', '2025-04-01 23:30:00'),
-(2, 2, '2025-04-01 18:45:00', '2025-04-02 00:30:00'),
-(3, 3, '2025-04-01 18:50:00', '2025-04-02 00:45:00'),
-(4, 4, '2025-04-01 19:05:00', '2025-04-01 23:45:00'),
-(5, 5, '2025-04-01 19:10:00', '2025-04-01 23:00:00'),
-(6, 6, '2025-04-01 18:30:00', NULL), -- AJ never checked out
-(7, 7, '2025-04-01 19:20:00', '2025-04-01 23:15:00'),
-(8, 8, '2025-04-01 19:30:00', '2025-04-01 22:50:00'),
-(9, 9, '2025-04-01 18:15:00', '2025-04-01 21:30:00');
+insert into guest_list (person_id, check_in, check_out) values
+(6, '2025-04-01 21:00:00', '2025-04-02 22:05:00');
+

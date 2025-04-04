@@ -1,17 +1,15 @@
 CREATE TABLE evidence (
-    evidence_id INT PRIMARY KEY,
-    description VARCHAR(255),
-    location_found VARCHAR(100)
+    evidence_id integer PRIMARY KEY,
+    item_name VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL
 );
 
-INSERT INTO evidence VALUES 
-(1, 'A set of keys with a missing piece', 'Library'),
-(2, 'A small note with AJ’s handwriting', 'Library'),
-(3, 'A bloodstained glove', 'Near the wine cellar'),
-(4, 'A golden locket with initials C.B.', 'Vault Room'),
-(5, 'A piece of crumpled paper', 'Grand Piano'),
-(6, 'A broken vase', 'Dining Hall'),
-(7, 'A torn piece of fabric', 'Ballroom'),
-(8, 'A suspicious footprint', 'Garden'),
-(9, 'A half-burnt letter', 'Kitchen'),
-(10, 'A hidden camera', 'Main Hall');
+INSERT INTO evidence (item_name, description) VALUES
+('newspaper', 'newspaper that the culprit sends to you indicating there was a missing heirloom.'),
+('shiny marble', 'so shiny it can be sell for a cheap price.'),
+('water gun', 'to abolish the fire if the fire is too big.'),
+('piece of paper', 'along with the newspaper. There is a piece of paper with a statement that says "did you try to BURN THE PAPER"'),
+('katana', 'for safety reasons.'),
+('burnt paper', 'burnt paper that left in the library.'),
+('axe', 'that can be used to break the vault.'),
+('poster', 'a poster the left beside the vault that says "Green is Good!"');

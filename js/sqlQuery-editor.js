@@ -47,8 +47,7 @@ function runQuery(sqlQuery){
             document.getElementById("output").innerHTML = "No results found.";
             return;
         }
-        // console.log(result[0].columns, result[0].values);
-
+        
         displayResultAsTable(result[0].columns, result[0].values);
 
     } catch(error) {
@@ -62,7 +61,8 @@ function displayResultAsTable(columns, rows) {
     table.setAttribute("border", "1");
     table.style.borderCollapse = "collapse";
     table.style.width = "100%";
-
+    let isEncrypted = true;
+    const statementColumnIndex = columns.indexOf("statement");
     // create header row
     const headerRow = document.createElement("tr");
     columns.forEach(col => {
@@ -77,7 +77,13 @@ function displayResultAsTable(columns, rows) {
         const dataRow = document.createElement("tr");
         row.forEach(cell => {
             const td = document.createElement("td");
-            td.textContent = cell;
+
+            // can cell be filter by statement?
+            if(statementColumnIndex !== -1 && cell === row[statementColumnIndex] && isEncrypted){
+                td.textContent = "asdf" // highlight the statement column
+            }else{
+                td.textContent = cell;
+            }
             dataRow.appendChild(td);
         });
         table.appendChild(dataRow);

@@ -50,13 +50,15 @@ const DatabaseModule = {
 };
 
 DatabaseModule.loadDb([
-    './sql/whodunnitone_crime_scene.sql',
+    './sql/whodunnitone_crime_scene_report.sql',
     './sql/whodunnitone_evidence.sql',
     './sql/whodunnitone_guest_list.sql',
     './sql/whodunnitone_person.sql',
     './sql/whodunnitone_person_information.sql',
     './sql/whodunnitone_security_footage.sql',
-    './sql/whodunnitone_statement.sql'
+    './sql/whodunnitone_statement.sql',
+    './sql/whodunnitone_network_logs.sql',
+    './sql/whodunnitone_safe_logs.sql'
 ]).then(()=> {
     console.log("Database loaded successfully!");
     document.getElementById("checkKeyBtn").disabled = false; // Enable the button after loading the database
